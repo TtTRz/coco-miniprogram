@@ -1,0 +1,8 @@
+<view>redux 测试</view>
+<view>name = {{name}}</view>
+<view>age = {{age}}</view>
+<button bind:tap="showProps">show props</button>
+<button bind:tap="changeData">age + 1</button>
+
+<custom-name></custom-name>
+<custom-age></custom-age>

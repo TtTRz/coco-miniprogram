@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "custom-name": "./components/name",
+    "custom-age": "./components/age"
+  }
+}
