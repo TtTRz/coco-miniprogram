@@ -16,12 +16,10 @@ const AccountModel = {
           ...payload
         }
       })
-
     }
   },
   reducers: {
     changeState: (state, payload) => {
-    
       return {
         ...state,
         ...payload,
