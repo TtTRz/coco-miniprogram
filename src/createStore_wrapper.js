@@ -1,9 +1,7 @@
 
-
-
 // 生成 reducers
-import createSagaMiddleware, {effects} from '../libs/vendors/redux-saga.min';
-import {applyMiddleware, compose, createStore} from '../libs/vendors/redux.min';
+import createSagaMiddleware, {effects} from './vendors/redux-saga.min';
+import {applyMiddleware, compose, createStore} from './vendors/redux.min';
 
 const { takeEvery } = effects;
 

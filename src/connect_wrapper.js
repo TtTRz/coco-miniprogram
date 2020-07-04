@@ -1,5 +1,5 @@
 
-import { effects } from '../libs/vendors/redux-saga.min';
+import { effects } from './vendors/redux-saga.min';
 
 const { put, call } = effects;
 

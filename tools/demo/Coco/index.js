@@ -4,7 +4,7 @@ import createStoreWrapper from './createStore_wrapper'
 const connect = connectWrapper;
 const createStore = createStoreWrapper;
 
-export {
+module.exports = {
   connect,
   createStore
 }

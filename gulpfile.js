@@ -1,19 +1,30 @@
-// const gulp = require('gulp')
-//
-// const clean = require('gulp-clean')
-//
-// const config = require('./tools/config')
-// const BuildTask = require('./tools/build')
-// const id = 'miniprogram-custom-component'
-//
-// new BuildTask(id, config.entry)
-//
-// gulp.task('clean', gulp.series(() => gulp.src(config.distPath, {read: false, allowEmpty: true}).pipe(clean()), done => {
-//   if (config.isDev) {
-//     return gulp.src(config.demoDist, {read: false, allowEmpty: true})
-//       .pipe(clean())
-//   }
-//   return done()
-// }))
-// gulp.task('watch', gulp.series(`${id}-watch`))
-// gulp.task('dev', gulp.series(`${id}-dev`))
+const gulp = require('gulp')
+const path = require('path')
+const del = require('del')
+const exec = require('child_process').exec
+
+function defaultTask(cb) {
+  cb();
+}
+
+gulp.task('clean', async () => {
+  await del(['dist/**/*'])
+})
+
+gulp.task('webpack', (cb) => {
+  return exec('npm run dev', (err, stdout, stderr) => {
+    console.log(stdout)
+    if (err) {
+      return err
+    }
+    cb()
+  })
+})
+
+gulp.task('copyFile', () => {
+  return gulp.src('dist/coco.js').pipe(gulp.dest('tools/demo/Coco/'))
+})
+
+
+
+gulp.task("dev", gulp.series('clean', 'webpack', 'copyFile'))

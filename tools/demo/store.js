@@ -1,4 +1,4 @@
-import { createStore } from './Coco/index';
+import { createStore } from './Coco/coco';
 
 import AccountModel from "./models/account";
 
