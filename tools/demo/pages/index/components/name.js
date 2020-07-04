@@ -1,4 +1,4 @@
-import { connect} from '../../../Coco/index'
+import { connect} from '../../../Coco/coco'
 
 const componentDef = {
   data: {
