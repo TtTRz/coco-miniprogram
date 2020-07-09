@@ -11,7 +11,7 @@ gulp.task('clean', async () => {
   await del(['dist/**/*'])
 })
 
-gulp.task('webpack', (cb) => {
+gulp.task('webpack dev', (cb) => {
   return exec('npm run dev', (err, stdout, stderr) => {
     console.log(stdout)
     if (err) {
@@ -21,10 +21,22 @@ gulp.task('webpack', (cb) => {
   })
 })
 
+gulp.task('webpack build', (cb) => {
+  return exec('npm run build', (err, stdout, stderr) => {
+    console.log(stdout)
+    if (err) {
+      return err
+    }
+    cb()
+  })
+})
+
 gulp.task('copyFile', () => {
-  return gulp.src('dist/coco.js').pipe(gulp.dest('tools/demo/Coco/'))
+  return gulp.src('dist/coco-miniprogram.js').pipe(gulp.dest('tools/demo/'))
 })
 
 
 
-gulp.task("dev", gulp.series('clean', 'webpack', 'copyFile'))
+gulp.task("dev", gulp.series('clean', 'webpack dev', 'copyFile'))
+
+gulp.task("build", gulp.series('clean', 'webpack build', 'copyFile'))

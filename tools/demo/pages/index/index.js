@@ -1,19 +1,17 @@
-import { connect } from '../../Coco/coco'
+import { connect } from '../../coco-miniprogram'
 
 const mapStateToProps = ({ account }) => {
+  // 在这里可以进行数据加工
+  const newAge = account.age + 100
+  // 当 store 更新时，return 的对象属性会自动 setData，导致视图渲染数据
   return {
-    age: account.age,
-    name: account.name,
+    age: newAge
   }
 }
 
 const pageDef = {
   data: {
-    name: 'rom'
-  },
-  onLoad() {
-  },
-  onShow() {
+    name: 'rom',
   },
   showData: function() {
     console.log(this.data)
@@ -21,16 +19,14 @@ const pageDef = {
   showProps: function() {
     console.log(this.props)
   },
-  changeStore: function() {
-
-  },
   changeData: function () {
     this.props.dispatch({
       type: 'account/addAge',
       payload: {
-        age: this.data.age + 1,
+        age: this.data.age,
       },
     })
+
   }
 }
 

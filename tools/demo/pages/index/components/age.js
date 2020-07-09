@@ -1,4 +1,4 @@
-import { connect } from '../../../Coco/coco'
+import { connect } from '../../../coco-miniprogram'
 
 const componentDef = {
   data: {

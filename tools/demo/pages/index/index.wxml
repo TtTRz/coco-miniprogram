@@ -2,6 +2,8 @@
 <view>name = {{name}}</view>
 <view>age = {{age}}</view>
 <button bind:tap="showProps">show props</button>
+<button bind:tap="showData">show data</button>
+
 <button bind:tap="changeData">age + 1</button>
 <custom-name></custom-name>
 <custom-age></custom-age>

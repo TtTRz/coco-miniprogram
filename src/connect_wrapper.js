@@ -1,23 +1,22 @@
+import shallowEqual from './utils/shallowEqual';
 
-import { effects } from './vendors/redux-saga.min';
 
-const { put, call } = effects;
+const updateData = function(data, props) {
 
-const updateData = (data, props) => {
-  // Object.keys(props).forEach((key) => {
-  //   if (data[key]) {
-  //     console.warn(`${key} 已在 data 中存在，将被 props 同名数据覆盖。`)
-  //   }
-  // })
-  data = {
-    ...data,
-    ...props,
+  let shouldUpdateData = !shallowEqual({...data}, {...props})
+
+
+  if (shouldUpdateData) {
+    this.setData({
+      ...data,
+      ...props,
+    })
   }
-  return data;
 }
 
 
-const connectWrapper = (mapStateToProps, autoSetData = false) => {
+
+const connectWrapper = (mapStateToProps, autoSetData = true) => {
 
   if (!mapStateToProps instanceof Function) {
     console.error('mapStateToProps is not a function!')
@@ -31,7 +30,9 @@ const connectWrapper = (mapStateToProps, autoSetData = false) => {
       console.warn('dispatch.type 不能为空！')
       return;
     }
+
     const type = dispatchDef.type.toUpperCase()
+
     app.store.dispatch({
       type,
       isEffect: true,
@@ -39,49 +40,65 @@ const connectWrapper = (mapStateToProps, autoSetData = false) => {
     })
   }
 
-  const onLoadWrapper = (that) => {
-    app.store.subscribe(() => {
-      console.log(that)
-      console.log('数据更新', app.store.getState())
-      const state = mapStateToProps(app.store.getState())
-      that.props = {
-        ...that.props,
-        data: {
-          ...state
-        }
-      }
-      if (autoSetData) {
-        // console.log(updateData(that.data, that.props.data))
-        that.setData(updateData(that.data, that.props.data))
-      }
-    })
-  }
-
   return (pageDef) => {
+
     const state = mapStateToProps(app.store.getState())
+
     // 注入 props
     pageDef.props = {
-      data: {
-        ...state,
-      },
+      data: state,
       dispatch,
     }
 
     // props.data 自动注入到 data 中
     if (autoSetData) {
-      pageDef.data = updateData(pageDef.data, state)
+      pageDef.data = {
+        ...pageDef.data,
+        ...state,
+      }
+    }
+
+    const onLoadWrapper = function() {
+
+      if (pageDef.onLoad && typeof pageDef.onLoad === 'function') {
+        pageDef.onLoad()
+      }
+
+      this.__storeUnsubscribe__ = app.store.subscribe(() => {
+        console.log('nextStore:', app.store.getState())
+        const state = mapStateToProps(app.store.getState())
+
+        this.props = {
+          ...this.props,
+          data: state,
+        }
+
+        if (autoSetData) {
+          updateData.call(this, this.data, this.props.data)
+        }
+      })
+    }
+
+    const onUnloadWrapper = function() {
+      if (pageDef.onUnload && typeof pageDef.onUnload === 'function') {
+        pageDef.onUnload()
+      }
+      this.__storeUnsubscribe__()
     }
 
     return {
       ...pageDef,
       onLoad() {
-        pageDef.onLoad && pageDef.onLoad()
-        onLoadWrapper(this)
+        onLoadWrapper.call(this)
       },
-      // onUnload,
       attached() {
-        pageDef.attached && pageDef.attached()
-        onLoadWrapper(this)
+        onLoadWrapper.call(this)
+      },
+      onUnload() {
+        onUnloadWrapper.call(this)
+      },
+      detached() {
+        onUnloadWrapper.call(this)
       }
     }
   }

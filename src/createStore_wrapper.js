@@ -1,13 +1,13 @@
 
 // 生成 reducers
 import createSagaMiddleware, {effects} from './vendors/redux-saga.min';
-import {applyMiddleware, compose, createStore} from './vendors/redux.min';
+import {applyMiddleware, compose, createStore} from './vendors/redux';
 
 const { takeEvery } = effects;
 
 const createStoreWrapper = (models) => {
-
   const sagaMiddleware = createSagaMiddleware()
+
   // 注册 models 的 reducers
   const reducersGenerator = (models) => {
     const reducers = {}
@@ -20,11 +20,12 @@ const createStoreWrapper = (models) => {
   }
 
   const reducer = function(state, action) {
-    const { payload, isEffect } = action;
+    const { payload, isEffect = false } = action;
     const type = action.type.toUpperCase()
     const allRegisterReducers = reducersGenerator(models)
     if (isEffect) {
       return state
+      // return state
     } else {
       if (!allRegisterReducers[type]) {
         console.warn(`尚未注册当前reducer：${type}`)
@@ -37,6 +38,7 @@ const createStoreWrapper = (models) => {
       }
     }
   }
+
   // 初始化 store 数据
   const initStoreGenerator = (models) => {
     const initStore = {}
@@ -49,6 +51,7 @@ const createStoreWrapper = (models) => {
     })
     return initStore
   }
+
   // 注册 models 的 effects
   const rootSagaGenerator = (models) => {
     return function* rootSaga () {
@@ -63,6 +66,7 @@ const createStoreWrapper = (models) => {
       }
     }
   }
+
   // 创建 store
   const store = createStore(
     reducer,

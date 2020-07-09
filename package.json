@@ -1,11 +1,11 @@
 {
-  "name": "miniprogram-redux",
+  "name": "coco-miniprogram",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "build": "cross-env NODE_ENV='production' webpack --mode production",
     "test": "jest ./test/*"
   },
   "author": "TtTRz",
@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.10.4",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.2",
     "del": "^5.1.0",
     "eslint": "^7.2.0",
     "gulp": "^4.0.2",

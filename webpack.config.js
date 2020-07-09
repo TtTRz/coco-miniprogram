@@ -14,7 +14,7 @@ module.exports = {
 
   devtool: 'source-map',
   output: {
-    filename: "coco.js",
+    filename: "coco-miniprogram.js",
     path: path.join(__dirname, "dist"),
     libraryTarget: 'commonjs2',
   }

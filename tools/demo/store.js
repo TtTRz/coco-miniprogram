@@ -1,4 +1,4 @@
-import { createStore } from './Coco/coco';
+import { createStore } from './coco-miniprogram';
 
 import AccountModel from "./models/account";
 
