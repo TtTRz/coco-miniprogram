@@ -40,16 +40,16 @@ API 设计思路在 Dva 的基础上做了修改，但大体上暂时保持一�
 src // 小程序根目录
  |-- models
        |-- accountModel.js
-			 .... // 所有模块的 models
+       ... // 所有模块的 models
  |-- services
-			 |-- accountServices.js
-       .... // 异步请求文件
+       |-- accountServices.js
+       ... // 异步请求文件
  |-- pages
- 	     |-- index.js
-			 |-- index.wxml
+       |-- index.js
+       |-- index.wxml
        |-- index.wxss
-			 |-- index.json
-			 .... // 小程序的页面/组件目录
+       |-- index.json
+       ... // 小程序的页面/组件目录
  |-- app.js  
  |-- app.json
  |-- app.wxss
